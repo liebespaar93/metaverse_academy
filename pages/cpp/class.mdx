@@ -1,0 +1,109 @@
+---
+title: 클래스
+description: |-
+    내용입력
+date: 2024-04-27T10:43:56+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - cpp
+    - xr unreal
+    - class
+categories:
+    - cpp
+---
+
+클레스란?
+
+내가 만드는 변수라 생각하면 편하다.\
+하지만 함수와 ```Orthodox Canonical Form```을 조작및 재공을 해주기 때문에 좀더 ```struct``` 보다.\
+다양하게 사용할 수 있다.
+
+특징으로는\
+클레스에 함수를 만들어 안에 있는 값과 상호작용 할 수 있습니다(```메서드``` 라고 부름니다.)\
+생성자, 소멸자, 복사생성자, 대입연산자 등 다양한 특정 상태에 따라 작업을 줄 수 있습니다.\
+또한 외부에서는 사용하지 못하는 ```private```, ```protected``` 속성을 가진 값들과 메서드를 만들 수도 있다
+외부에 노출이 필요한 요소들은 ```public``` 속성을 가지게 하여 사용하여야 한다\
+operater 와 같은 연산자를 부여해 줄 수 있다\
+상속을 해 줄 수 있다
+
+왜? 상위 같은 복잡한 구조가 있어야하는가?
+
+상태관리와 연된 속성에 대한 사용성을 추가하기 위해 만들었다.
+
+tmi : 익숙해 지면 정말 좋은 기능들을 쓰기 시작한다.
+
+```cpp
+#include <iostream>
+
+class Warrior{
+    public:
+    char *name;
+    int level;
+    int speed;
+    float damagePower;
+
+    Warrior(const char* text, int level, int speed, int damage){
+        std::cout << "생성 합니다" << std::endl;
+    }
+
+    Warrior(const Warrior &ref){
+        std::cout << "복사 합니다" << std::endl;
+        *this = ref;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+    }
+
+    ~Warrior( ){
+        std::cout << "소멸 합니다" << std::endl;
+    }
+    
+
+    Warrior& operator=(const Warrior &ref){
+        std::cout << "대입 합니다" << std::endl;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+        return *this;
+    }
+};
+
+int main()
+{
+    std::cout << "== 생성 ==" << std::endl;
+    Warrior* mycharacter = new Warrior("전사", 10, 100,100);
+    
+    std::cout << "== 복사 =="<< std::endl;
+    Warrior mycharacterCopy(*mycharacter);
+
+    std::cout << "== 대입 =="<< std::endl;
+    Warrior* mycharacterAssignment;
+
+    *mycharacterAssignment = *mycharacter;
+
+    std::cout << "== 소멸 =="<< std::endl;
+    delete(mycharacter);
+    return 0;
+}
+```
+
+상위처럼 ```Orthodox Canonical Form``` 을 정의 할 수 있고\
+출력으로
+
+
+```txt
+== 생성 ==
+생성 합니다
+== 복사 ==
+복사 합니다
+대입 합니다
+== 대입 ==
+대입 합니다
+== 소멸 ==
+소멸 합니다
+소멸 합니다
+```
+
+확인할 수 있다
+
+> [!TIP]
+> ```Orthodox Canonical Form```을 예전에 만들어둔 ```snippet```이 있다 사용하면 편리하여 링크를 남긴다
+> [https://gist.github.com/liebespaar93/a2b947a094dc5c4ec3decf21bd02bbd5#file-cpp_orthodox_canonical_form-json](https://gist.github.com/liebespaar93/a2b947a094dc5c4ec3decf21bd02bbd5#file-cpp_orthodox_canonical_form-json)

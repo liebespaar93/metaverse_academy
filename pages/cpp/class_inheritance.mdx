@@ -1,0 +1,161 @@
+---
+title: 클래스 상속
+description: |-
+    내용입력
+date: 2024-04-27T14:25:59+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - cpp
+    - xr unreal
+    - class
+    - inheritance
+categories:
+    - cpp
+---
+
+클레스 상속
+
+클레스 상속은 만들어둔 클레스에 요소를 보존하며 추가적인 요소를 만들고 싶을때 주로 사용된다\
+이러한 방법으로 좀더 유연한 코딩과 공통작업하는 과정중 편리함을 가질 수 있기에 살펴보도록 한다
+
+상속에는 부모와 자식으로 관계를 칭하며\
+자식은 부모의 요소들을 가지고 생성되게 된다
+
+이전에 만든 파일을 분리해 주고 추가로 ```soldier``` 라는 부모 클래스를 생성하여 상속을 알아 보도록 하겠다.
+
+```cpp filename="main.cpp"
+#include "warrior.hpp"
+
+int main()
+{
+    std::cout << "== 생성 ==" << std::endl;
+    Warrior* mycharacter = new Warrior("전사", 10, 100,100);
+    
+    std::cout << "== 복사 =="<< std::endl;
+    Warrior mycharacterCopy(*mycharacter);
+
+    std::cout << "== 대입 =="<< std::endl;
+    Warrior* mycharacterAssignment;
+
+    *mycharacterAssignment = *mycharacter;
+
+    std::cout << "== 소멸 =="<< std::endl;
+    delete(mycharacter);
+    return 0;
+}
+```
+
+```cpp filename="warrior.hpp"
+#include <iostream>
+#include <soldier.hpp>
+
+class Warrior : public Soldier
+{
+public:
+    float damagePower;
+
+    Warrior(const char *text, int level, int speed, int damage)
+        : Soldier(text, level, speed)
+    {
+        std::cout << "Warrior 생성 합니다" << std::endl;
+    }
+
+    Warrior(const Warrior &ref)
+        : Soldier(ref.name, ref.level, ref.speed)
+    {
+        std::cout << "Warrior 복사 합니다" << std::endl;
+        *this = ref;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+    }
+
+    ~Warrior()
+    {
+        std::cout << "Warrior 소멸 합니다" << std::endl;
+    }
+
+    Warrior &operator=(const Warrior &ref)
+    {
+        std::cout << "Warrior 대입 합니다" << std::endl;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+        return *this;
+    }
+};
+```
+
+```cpp filename="soldier.hpp"
+#include <iostream>
+
+class Soldier{
+    public:
+    char *name;
+    int level;
+    int speed;
+    
+    Soldier(const char* text, int level, int speed){
+        std::cout << "Soldier 생성 합니다" << std::endl;
+    }
+
+    Soldier(const Soldier &ref){
+        std::cout << "Soldier 복사 합니다" << std::endl;
+        *this = ref;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+    }
+
+    ~Soldier( ){
+        std::cout << "Soldier 소멸 합니다" << std::endl;
+    }
+
+    Soldier& operator=(const Soldier &ref){
+        std::cout << "Soldier 대입 합니다" << std::endl;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+        return *this;
+    }
+};
+```
+
+이러한 구조를 가지게 되면 부모의 요소인 name 과 level등을 가지게 되고 자식에게 요소가 없다면 부모에게서 찾아오는 현상을 볼 수 있을 것이다\
+중복된 key값에 경우 추후 ```virtual method```를 통하여 알려주겠다
+
+부모로 ```Soldier``` 클레스를 이용하여 보다 공통적인 부분들을 제어할 수 있게 되었다.\
+추가적으로 다른 ```Archer```클래스를 만들게 된다고 할때도
+
+```cpp filename="archer.hpp"
+#include <iostream>
+#include "soldier.hpp"
+
+class Archer : public Soldier
+{
+public:
+    float damagePower;
+
+    Archer(const char *text, int level, int speed)
+        : Soldier(text, level, speed)
+    {
+        std::cout << "Archer 생성 합니다" << std::endl;
+    }
+
+    Archer(const Archer &ref)
+        : Soldier(ref.name, ref.level, ref.speed)
+    {
+        std::cout << "Archer 복사 합니다" << std::endl;
+        *this = ref;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+    }
+
+    ~Archer()
+    {
+        std::cout << "Archer 소멸 합니다" << std::endl;
+    }
+
+    Archer &operator=(const Archer &ref)
+    {
+        std::cout << "Archer 대입 합니다" << std::endl;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+        return *this;
+    }
+};
+```
+
+이러한 식으로 간단한 추가만으로 보다 관리하게 편하게 되는 것이다.

@@ -1,0 +1,112 @@
+---
+title: 포인터
+description: |-
+    내용입력
+date: 2024-04-27T10:43:44+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - cpp
+    - xr unreal
+    - pointer
+categories:
+    - cpp
+---
+
+포인터란?
+
+포인터는 메모리의 주소를 지칭하여 변수에 담는것을 말한다.
+
+이러한 변수를 만드는 이유는 특정한 변수들을 담을 수 있고 한수에 전달하는 과정에 값이 아닌 값이 저장되있는\
+주소를 사용할 수 있게 되어 사용한다.
+
+```
+#include <iostream>
+
+int main() {
+    int value;
+    int array[1];
+
+    value = 42;
+    *array = value;
+    
+    std::cout << "i : " << array << std::endl;
+    std::cout << "i : " << *array << std::endl;
+    
+    return 0;
+}
+```
+
+이러한 식으로 주소를 가지고 다니기 때문에 좀더 편하게 사용이 가능하다
+
+응용하여 함수에 적용하면
+
+```cpp
+#include <iostream>
+
+void ft_change_value(int value){
+    value++;
+    std::cout << "inside value ptr : " << &value << std::endl;
+    std::cout << "inside value update : " << value << std::endl;
+}
+
+void ft_change_value_ref(int &value){
+    (value)++;
+    std::cout << "inside value ptr : " << &value << std::endl;
+    std::cout << "inside value update : " << value << std::endl;
+}
+
+void ft_change_value_ptr(int *value){
+    (*value)++;
+    std::cout << "inside value ptr : " << &value << std::endl;
+    std::cout << "inside value update : " << *value << std::endl;
+}
+
+int main() {
+    int value;
+    int *value_ptr;
+
+    value = 42;
+    value_ptr = &value;
+    
+    std::cout << "value : " << value << std::endl;
+    std::cout << "value_ref : " << &value << std::endl;
+    ft_change_value(value);
+
+    std::cout << "value : " << value << std::endl;
+    std::cout << "value_ref : " << &value << std::endl;
+
+    ft_change_value_ref(value);
+
+    std::cout << "value : " << value << std::endl;
+    std::cout << "value_ref : " << &value << std::endl;
+    
+    ft_change_value_ptr(value_ptr);
+
+    std::cout << "value_ptr : " << value_ptr << std::endl;
+    std::cout << "value_ptr_value : " << *value_ptr << std::endl;
+
+    return 0;
+}
+```
+
+```bash
+value : 42
+value_ref : 0x16b91f278
+inside value ptr : 0x16b91f22c
+inside value update : 43
+value : 42
+value_ref : 0x16b91f278
+inside value ptr : 0x16b91f278
+inside value update : 43
+value : 43
+value_ref : 0x16b91f278
+inside value ptr : 0x16b91f228
+inside value update : 44
+value_ptr : 0x16b91f278
+value_ptr_value : 44
+```
+이러한 value 값의 변화를 알 수 있다.\
+함수는 특정 메모리에 인풋받을 크기를 가지고 인풋값을 복사하여 저장하기에 주소가 다르게 들어와 나타는 현상이다
+
