@@ -1,0 +1,31 @@
+---
+title: vector
+description: |-
+    내용입력
+date: 2024-04-28T12:43:17+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - cpp
+    - xr unreal
+    - vector
+categories:
+    - cpp
+---
+
+vector
+
+백터는 데이터를 일정 메모리 사이즈에 저장하는 방식을 만드는 구조체이다.\
+하지만 struct 와다르게 일정한 ```iterator``` 로 연속된 배열을 제어할 수 있고\
+vector 중간 수정 및 메모리 사이즈 확장등을 할 수 있다.
+
+> [!TIP]
+> 메모리 크기 확장시 확장하는 크기는 2배씩 증가하며 malloc이 가능한 메모리 주소를 찾아 할당하게 된다.
+
+이러한 특징으로 list보다 배열 참조가 빠르지만 메모리 크기를 줄였다 늘리는 작업은 추천하지 않는다.
+ 
+참고 사이트
+
+[cppreference.com](https://en.cppreference.com/w/cpp/container/vector)\
+

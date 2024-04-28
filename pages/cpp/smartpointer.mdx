@@ -1,0 +1,149 @@
+---
+title: 스마트 포인터
+description: |-
+    내용입력
+date: 2024-04-28T10:38:44+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - cpp
+    - xr unreal
+    - smart point
+categories:
+    - cpp
+---
+
+스마트 포인터란?
+
+스마트 포인터는 java 나 python같은 메모리를 자동으로 관리해 주는 라이브러리이다.\
+```#include <memory>```내부에 ```smart pointer``` 에 대한 함수들이 있으며\
+그외 에도 ```memory```에서 다양한 메모리 관련 작업을 할 수 있게 제공 해준다.
+
+자세한 설명은 \
+[https://en.cppreference.com/w/cpp/header/memory](https://en.cppreference.com/w/cpp/header/memory)\
+를 참조하면 좋을 거 같다.
+
+| 함수 | 설명 |
+| --- | --- |
+| unique_ptr | 유니크 한지 확인하는 포인터 입니다 |
+| shared_ptr | 자동 메모리 해체등을 해주는 관리되는 포인터 입니다. |
+| weak_ptr | shared_ptr를 관리하여 유효한 포인터인지 확인할 수 있게 지원합니다. |
+| auto_ptr | 자동으로 감지하여 관리하는 포인터 입니다. !주의 c++17부터 지원하지 않게 되어 사용을 권장하지 않습니다. |
+
+```cpp filename="warrior.hpp"
+#include <iostream>
+#ifndef WARRIOR_HPP
+#define WARRIOR_HPP
+
+#include "soldier.hpp"
+
+class Warrior : public Soldier
+{
+private:
+    float damagePower;
+
+public:
+    Warrior(const char* text, int level, int speed, int damage): Soldier(text, level, speed){
+        std::cout << "생성 합니다" << std::endl;
+        this->damagePower = damage;
+    }
+ 
+    Warrior(const Warrior &ref): Soldier(ref.name, ref.level, ref.speed){
+        std::cout << "복사 합니다" << std::endl;
+        *this = ref;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+    }
+ 
+    ~Warrior( ){
+        std::cout << "소멸 합니다" << std::endl;
+    }
+    Warrior &operator=(const Warrior &ref) { return *this; }
+
+    void ShowName()
+    {
+        std::cout << "name : Warrior" << std::endl;
+    }
+};
+
+#endif
+```
+
+상위처럼 class를 변경하여 생성과 소멸을 확인해보자
+
+## shared_ptr
+
+```cpp filename="main.cpp"
+#include "soldier.hpp"
+#include "warrior.hpp"
+#include "archer.hpp"
+
+#include <iostream>
+#include <memory>
+
+int main()
+{
+    std::unique_ptr<Warrior> p(new Warrior("전사",100,100,100));
+
+    return 0;
+}
+```
+
+실제 생성하고 소멸을 안해주었을 경우 자동으로 소멸을 하는 것을 볼 수 있다.\
+컴퓨터상 메모리가 안전하게 유지되어\
+스마트 포인터를 사용하는거 같다.\
+
+## weak_ptr
+
+```cpp filename="main.cpp"
+#include "soldier.hpp"
+#include "warrior.hpp"
+#include "archer.hpp"
+
+#include <iostream>
+#include <memory>
+
+int main()
+{
+    std::shared_ptr<Warrior> p(new Warrior("전사",100,100,100));
+
+    std::weak_ptr<Warrior> weak_p = p;
+
+    weak_p.lock(); // 유효성 확인
+
+    return 0;
+}
+```
+
+```weak_ptr```은 ptr의 유효성을 확인하기 위해 사용된다.
+
+```lock```이라는 메서트도 사용가능 상태인지 확인이 가능한거 같다. (자세한 사용은 추후 많이 사용해보고 수정할 예정)
+
+## unique_ptr
+
+```cpp filename="main.cpp"
+#include "soldier.hpp"
+#include "warrior.hpp"
+#include "archer.hpp"
+
+#include <iostream>
+#include <memory>
+
+int main()
+{
+    std::unique_ptr<Warrior> p(new Warrior("전사",100,100,100));
+
+    // auto p_copy = p; 불가능
+
+    return 0;
+}
+```
+
+유니크 ptr이다 복제하는 것을 허용하지 않는다.\
+그럼으로 한곳에서 삭제하여 다른곳에서 참조되고 있던 포인터들이 문제가 생기는 것을 방지한다.
+
+## auto_ptr
+
+사용을 해보지 않아 잘 모르겠다.
+
+추가적으로 작성이 필요하면 문의 바란다.

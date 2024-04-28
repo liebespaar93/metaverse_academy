@@ -1,22 +1,18 @@
-# Nextra Docs Template 
+# Metaverse Academy
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
-
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
-
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+메타버스 아카데미 학습 내용을 정리한 doc입니다.
 
 ## Quick Start
 
-Click the button to clone this repository and deploy it on Vercel:
+vercel에 올린 사이트를 방문하여 확인하실 수 있습니다
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
+[https://metaverseacademy-liebespaar93s-projects.vercel.app/](https://metaverseacademy-liebespaar93s-projects.vercel.app/)
 
-## Local Development
+패키지 설치\
+```npm i install```
 
-First, run `pnpm i` to install the dependencies.
-
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
+실행\
+```npm run dev```
 
 ## License
 

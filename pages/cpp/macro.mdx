@@ -1,0 +1,60 @@
+---
+title: macro
+description: |-
+    내용입력
+date: 2024-04-29T00:26:10+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - cpp
+    - xr unreal
+    - macro
+categories:
+    - cpp
+---
+
+메크로란?
+
+c++ 에 내장되있는 변수들을 사용하여 좀더 내가 원하는 스타일의 함수 및 선언을 해줄 수 있다.
+
+자세히 사용하지 못해봐서 예시를 남기며 추후 필요시 업데이트 하겠다.
+
+선언하는 방식의 예제이다
+
+```cpp filename="main.cpp"
+// 매크로 함수
+#define ADD (x, y) (x + y)
+#define PRINT_INT(value) std::cout << value << std::endl;
+#define PRINT_STRING(str) std::cout << str << std::endl;
+#define PRINT_STRING_NOMARK(str) std::cout << #str << std::endl;
+#define PRINT_STRING_MERGE(str1, str2) std::cout << str1##str2 << std::endl;
+// 가변인자 매크로
+#define VA_PRINT(...) printf(##__VA_ARGS__)
+#define VA_PRINT(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#define MY_LOG(...) printf("%s (%d) %s", __FUNCTION__, __LINE__, ##__VA_ARGS__)
+```
+
+해더 중복 선언 방지
+
+```cpp filename="soldier.hpp"
+#pragma once
+class Soldier
+{
+    ...
+};
+```
+
+```cpp filename="soldier.hpp"
+#ifndef SOLDIER_HPP
+#define SOLDIER_HPP
+
+class Soldier
+{
+    ...
+};
+#endif
+```
+
+필자는 아래쪽을 자주써서 아래쪽을 선호하지만 최신 기술인 만큼 ```#pragma once```가 더 좋을 것이다.
+

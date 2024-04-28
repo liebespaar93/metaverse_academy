@@ -1,0 +1,144 @@
+---
+title: exception
+description: |-
+    내용입력
+date: 2024-04-28T16:46:11+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - cpp
+    - xr unreal
+    - exception
+categories:
+    - cpp
+---
+
+exception error
+
+warrior class가 level 100이 넘는 캐릭터가 생성되었을때 에러를 발생하는 방법에 대하여 알아보자
+
+```cpp filename="warrior.hpp"
+#include <iostream>
+#ifndef WARRIOR_HPP
+#define WARRIOR_HPP
+
+#include "soldier.hpp"
+class Warrior : public Soldier
+{
+
+private:
+    float damagePower;
+
+public:
+    Warrior(const char* text, int level, int speed, int damage): Soldier(text, level, speed), damagePower(damage){
+        std::cout << "생성 합니다" << std::endl;
+    }
+ 
+    Warrior(const Warrior &ref): Soldier(ref.name, ref.level, ref.speed){
+        std::cout << "복사 합니다" << std::endl;
+        *this = ref;
+        // 깊은 복사를 원하실 경우 고려하여 복사할 것
+    }
+ 
+    ~Warrior( ){
+        std::cout << "소멸 합니다" << std::endl;
+    }
+    Warrior &operator=(const Warrior &ref) { return *this; }
+
+    void ShowName()
+    {
+        std::cout << "name : Warrior" << std::endl;
+    }
+};
+
+#endif
+```
+
+부모인 soldier class에 생성자에 레밸이 100이 넘거나 0보다 작을경우 ```throw``` 를 발생시켜 작업을 해보자.
+
+```cpp filename="soldier.hpp"
+#include <iostream>
+#include <string>
+#include "myexception.hpp"
+
+#ifndef SOLDIER_HPP
+#define SOLDIER_HPP
+
+class Soldier
+{
+public:
+    char *name;
+    int level;
+    int speed;
+
+    Soldier(const char *text, int level, int speed)
+    {
+        if (level < 0 || 100 < level)
+        {
+            throw MyException("level error");
+        }
+    }
+
+    Soldier(const Soldier &ref) {}
+
+    virtual ~Soldier(){};
+
+    Soldier &operator=(const Soldier &ref) { return *this; }
+    Soldier &operator+(const Soldier &ref) { return *this; }
+    Soldier &operator-(const Soldier &ref) { return *this; }
+
+    bool operator>(const Soldier &ref) { return this->level > ref.level; }
+    bool operator<(const Soldier &ref) { return this->level < ref.level; }
+
+    Soldier operator++()
+    {
+        Soldier temp(*this);
+        this->level++;
+        return temp;
+    }
+    Soldier &operator++(int)
+    {
+        this->level++;
+        return *this;
+    }
+    // virtual void ShowName() = 0;
+};
+
+#endif
+```
+
+```cpp filename="main.cpp"
+#include <iostream>
+#include "soldier.hpp"
+#include "warrior.hpp"
+#include "myexception.hpp"
+
+int main()
+{
+    Soldier *myWarrior;
+    try {
+        myWarrior = new Warrior("전사",1000,10,10);
+        delete (myWarrior);
+    }
+    catch (int e){
+        std::cout << "int " << e << std::endl;
+    }
+    catch (char* e){
+        std::cout << "char* " << e << std::endl;
+    }
+    catch (MyException e){
+        std::cout << "MyException " << e.what() << std::endl;
+    }
+    catch (...){
+        std::cout << "알 수 없는 오류" << std::endl;
+    }
+    return 0;
+}
+```
+
+상위 코드에 출력처럼 예외를 발생 시키면 생성도 되지않고 끝네기 때문에 delete 할 객체를 확인하여 삭제해야한다.
+
+catch에 같은 타입의 에러를 케치하고 그것을 정의 할 수 있다.
+
+이로서 이중 또는 삼중 try를 사용하여 원하는 부분에서 exception 을 발생시킬 수 있다.
