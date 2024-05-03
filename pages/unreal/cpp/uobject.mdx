@@ -1,0 +1,43 @@
+---
+title: UObject
+description: |-
+    내용입력
+date: 2024-05-01T21:55:12+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - unreal
+    - xr unreal
+    - editor
+    - cpp
+    - UObject
+categories:
+    - unreal
+---
+
+## UObject
+
+UClass들의 모든 정보를 기본 적인 데이터 CDO(Class Default Object)로 생성하여 하나씩 저장해 둔다.\
+그리고 필요할 때 또는 새로 생성되었으 때마다 이미 만들어진 오브젝트를 clone(복사) 하는식으로 객체를 생성한다.
+이러한 방식으로 생성자가 호출되서 동작하는 런타임을 줄일 수 있고 메모리를 그대로 전달만 하면 된다는 이점이 생긴다.
+
+기본적인 상속 코드는 하위와 같다
+
+```cpp
+#pragma once
+
+#include 'Object.h'
+#include 'MyObject.generated.h' // 언리렇 라이브러리
+
+UCLASS()
+class MYPROJECT_API UMyObject : public UObject
+{
+    GENERATED_BODY()
+
+};
+```
+
+## 잠조
+
+[https://dev.epicgames.com/documentation/ko-kr/unreal-engine/objects-in-unreal-engine](https://dev.epicgames.com/documentation/ko-kr/unreal-engine/objects-in-unreal-engine)

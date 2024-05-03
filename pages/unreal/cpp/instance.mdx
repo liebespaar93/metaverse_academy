@@ -1,0 +1,43 @@
+---
+title: instance
+description: |-
+    내용입력
+date: 2024-05-01T22:43:32+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - unreal
+    - xr unreal
+    - editor
+    - cpp
+    - instance
+categories:
+    - unreal
+---
+
+instance 란
+
+```class``` 에 따라 만들어진 사용 가능한 상태를 칭한다.\
+즉, 변수에 담긴 생성된 클레스 이다.
+
+```unreal```에서 사용하는 방법을 알아보자
+
+```cpp
+template<class TClass>
+TClass* NewNamedObject
+(
+    UObject* Outer,
+    FName Name,
+    EObjectFlags Flags = RF_NoFlags,
+    UObject const* Template=NULL
+);
+```
+
+이부분에 대하여는 추후 익숙해 지면 수정을 하겠다
+
+까먹을 수 있으니 이글을 보면 github에 문의를 주면 감사하겠다.
+
+참조
+
+[https://dev.epicgames.com/documentation/ko-kr/unreal-engine/creating-objects-in-unreal-engine](https://dev.epicgames.com/documentation/ko-kr/unreal-engine/creating-objects-in-unreal-engine)

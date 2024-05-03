@@ -1,0 +1,55 @@
+---
+title: vector
+description: |-
+    내용입력
+date: 2024-05-02T23:59:25+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - unreal
+    - xr unreal
+    - editor
+    - cpp
+    - vector
+categories:
+    - unreal
+---
+
+unreal 에서는\
+X축을 앞과 뒤 \
+Y축을 좌우\
+Z축을 위 아래\
+로 정의하여 사용한다.
+
+vector에 설정되있는 방향에 대하여 알아보자
+
+| 메서드 | 백터 | 설명 |
+| --- | --- | --- |
+| ZeroVector | (0, 0, 0) | 영으로 만드는 백터이다 |
+| OneVector | (1, 1, 1) | 모두다 1의 값을 가진 백터이다 |
+| UpVector | (0, 0, 1) | Z축이 증가하는 백터이다 |
+| DownVector | (0, 0, -1) | Z축이 감소하는 백터이다. |
+| ForwardVector | (1, 0, 0) | X축이 증가하는 백터이다. |
+| BackwardVector | (-1, 0, 0) | X축이 감소하는 백터이다. |
+| RightVector | (0, 1, 0) | Y측이 증가하는 벡터이다. |
+| LeftVector | (0, -1, 0) | Y축이 감소하는 백터이다. |
+| XAxisVector | (1, 0, 0) | X축에 대한 벡터이다. |
+| YAxisVector | (0, 1, 0) | Y축에 대한 백터이다. |
+| ZAxisVector | (0, 0, 1) | Z축에 대한 백터이다. |
+
+```cpp filename="UnrealMath.cpp"
+template<> const FVector3f FVector3f::ZeroVector(0, 0, 0);
+template<> const FVector3f FVector3f::OneVector(1, 1, 1);
+template<> const FVector3f FVector3f::UpVector(0, 0, 1);
+template<> const FVector3f FVector3f::DownVector(0, 0, -1);
+template<> const FVector3f FVector3f::ForwardVector(1, 0, 0);
+template<> const FVector3f FVector3f::BackwardVector(-1, 0, 0);
+template<> const FVector3f FVector3f::RightVector(0, 1, 0);
+template<> const FVector3f FVector3f::LeftVector(0, -1, 0);
+template<> const FVector3f FVector3f::XAxisVector(1, 0, 0);
+template<> const FVector3f FVector3f::YAxisVector(0, 1, 0);
+template<> const FVector3f FVector3f::ZAxisVector(0, 0, 1);
+```
+
+추가적인 내용은 내부 cpp 파일을 참조하자

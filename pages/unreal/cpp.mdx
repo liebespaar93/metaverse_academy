@@ -14,3 +14,120 @@ tags:
 categories:
     - unreal
 ---
+
+기본적인 클래스 체계는 아래와 같으며 여러가지 규칙들이있다
+
+상속받는 class의 이니셜을 접두사로 붙혀주어야 한다는 것이다.
+
+```GENERATED_BODY```와 같은 unreal 메크로도 적절한 방식으로 사용하여야 한다.
+
+```cpp
+UCLASS()
+
+class EXAMPLEPROJECT_API AExampleActor : public AActor
+{
+    GENERATED_BODY()
+    
+public:	
+    // 이 액터 프로퍼티의 디폴트값 설정
+    AExampleActor();
+
+protected:
+    
+            // 게임 시작 시 또는 스폰 시 호출
+    virtual void BeginPlay() override;
+
+};
+```
+
+클래스를 만들때 규칙이 있다
+
+| 이니셜 | 상속 | 내용 |
+| --- | --- | --- |
+| ```T``` | Tamplate | 템플릿 클래스 생성시 ```T```를 포함 |
+| ```U``` | UObject | UObject 에 상속하는 클레스 생성시 ```U```를 포함 |
+| ```A``` | AActor | AActor 에서 상속하는 클래스 생성시 ```A```를 포함 |
+| ```S``` | SWidget | SWidget에서 상속하는 클래스 생성시 ```S```를 포함 |
+| ```I``` | Interface | 인터테이스일 경우 ```T```를 포함 |
+| ```C``` | Concept | ?? 아직 잘 모르겠다.|
+| ```E``` | Enum | enum(열거형?) 에는 클래스 생성시 ```E```를 포함 |
+| ```b``` | bool | bool 변수에는 ```b```를 포함
+| ```F``` | Function? | 자세히 모르겟다 |
+| ```UE_``` | macro | 메크로의 경우 ```UE_``` 가 붙는다. |
+
+> [!TIP]
+> macro 의경우 ```_``` snakecse로 단어를 구분한다. 나머지는 camelcase를 사용하는거 같다.
+
+### Tamplate
+
+```cpp
+class TAttribute;
+```
+
+### UObject
+
+```cpp
+class UActorComponent;
+```
+
+### AActor
+
+```cpp
+class AActor;
+```
+
+### SWidget
+
+```cpp
+class SCompoundWidget;
+```
+
+### Interface
+
+```cpp
+class IAnalyticsProvider;
+```
+
+### Concept
+
+```cpp
+template <typename Concept, typename... Ts>;
+```
+
+### Enum
+
+```cpp
+enum class EColorBits {
+    ECB_Red,
+    ECB_Green,
+    ECB_Blue
+};
+```
+
+### bool
+
+```cpp
+bPendingDestruction
+
+bHasFadedIn.
+```
+
+### Function?
+
+```cpp
+typedef TArray<FMytype> FArrayOfMyTypes;
+```
+
+### macro
+
+```cpp
+#define UE_AUDIT_SPRITER_IMPORT
+```
+
+참고 
+
+[https://dev.epicgames.com/documentation/ko-kr/unreal-engine/unreal-engine-programming-and-scripting](https://dev.epicgames.com/documentation/ko-kr/unreal-engine/unreal-engine-programming-and-scripting)
+
+[https://dev.epicgames.com/documentation/ko-kr/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine](https://dev.epicgames.com/documentation/ko-kr/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine)
+
+[https://dev.epicgames.com/documentation/ko-kr/unreal-engine/objects-in-unreal-engine](https://dev.epicgames.com/documentation/ko-kr/unreal-engine/objects-in-unreal-engine)
