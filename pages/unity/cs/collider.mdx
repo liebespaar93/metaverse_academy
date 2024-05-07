@@ -1,0 +1,79 @@
+---
+title: collider
+description: |-
+    내용입력
+date: 2024-05-07T18:32:25+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - unity
+    - editor
+    - c#
+    - collider
+categories:
+    - unity
+---
+
+
+
+```c#
+public class DestroyZone : MonoBehaviour
+{
+    private void OnTriggerEnter(Collider other)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private void OnTriggerStay(Collider other)
+    {
+        throw new NotImplementedException();
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        throw new NotImplementedException();
+    }
+}
+```
+
+## OnTriggerEnter && OnCollisionEnter
+
+부딪힐 때 발생하는 트리거 입니다.
+
+## OnTriggerStay && OnCollisionStay
+
+부딪히는 중일 때 작동하는 트리거 입니다.
+
+## OnTriggerExit && OnCollisionExit
+
+부딪힘이 끝났을때 발생하는 트리거 입니다.
+
+## 충돌 설정
+
+![unity-csharp-collider-inspector](./assets/unity-csharp-collider-inspector.png)
+
+설정에 ```Box Collider```와  ```Rigidbody```를 설정할 수 있다.\
+```collider```의경우 충돌설정이고 ```Rigidbody```의 경우 물리적 엔진을 작동하도록 처리해 준다.
+
+## physics layout 설정
+
+![unity-csharp-collider-physics](./assets/unity-csharp-collider-physics.png)
+
+원하는 레이어 종류를 만들어 서로의 물리엔진을 상호작용을 할 것인지 선택할 수 있다.
+
