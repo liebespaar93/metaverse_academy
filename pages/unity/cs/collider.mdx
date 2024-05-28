@@ -77,3 +77,26 @@ public class DestroyZone : MonoBehaviour
 
 원하는 레이어 종류를 만들어 서로의 물리엔진을 상호작용을 할 것인지 선택할 수 있다.
 
+
+
+점프를 하기 위한 간단한 스크립트다
+
+```c#
+rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+print("jump");
+```
+와와 같이 방향과 옵션을 지정하면 ```rigidbody```에 힘을 줄 수 있다.
+
+강체 힘 추가옵션아래와 같은 옵션들이 있다.
+
+| mode | 설명 |
+| --- | --- |
+| Force | Add a continuous force to the rigidbody, using its mass.|
+| Acceleration | Add a continuous acceleration to the rigidbody, ignoring its mass.|
+| Impulse | Add an instant force impulse to the rigidbody, using its mass.|
+| VelocityChange | Add an instant velocity change to the rigidbody, ignoring its mass.|
+
+
+참고
+
+[https://docs.unity3d.com/kr/current/ScriptReference/ForceMode.html](https://docs.unity3d.com/kr/current/ScriptReference/ForceMode.html)
