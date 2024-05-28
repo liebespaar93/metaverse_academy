@@ -1,0 +1,126 @@
+---
+title: delegate
+description: |-
+    내용입력
+date: 2024-05-28T12:00:30+09:00
+preview: 이미지 주소
+draft: false
+tags:
+    - metaverse academy
+    - cpp
+    - xr unreal
+    - delegate
+categories:
+    - cpp
+---
+
+
+delegate란?
+
+함수를 인스턴스화 하기 위해 사용되는 방법이다.
+
+아래의 delegate를 만드는 방법에 대하여 보면서 확인해보자
+
+```cpp
+class delegate
+{
+private:
+    typedef void (*stub_type)(void* object_ptr, int);
+
+    void* object_ptr;
+    stub_type stub_ptr;
+
+    template <class T, void (T::*TMethod)(int)>
+    static void method_stub(void* object_ptr, int a1)
+    {
+        T* p = static_cast<T*>(object_ptr);
+        return (p->*TMethod)(a1); // #2
+    }
+
+public:
+    delegate()
+        : object_ptr(0)
+        , stub_ptr(0)
+    {}
+
+    template <class T, void (T::*TMethod)(int)>
+    static delegate from_method(T* object_ptr)
+    {
+        delegate d;
+        d.object_ptr = object_ptr;
+        d.stub_ptr = &method_stub<T, TMethod>; // #1
+        return d;
+    }
+
+    void operator()(int a1) const
+    {
+        return (*stub_ptr)(object_ptr, a1);
+    }
+
+};
+```
+
+## 코드 분석
+
+private 부분부터 살펴보자
+
+```cpp
+private:
+    // 함수 포인터 형태의 타입 변수를 만들고
+    // param 안에는 함수 포인터가 담겨있고 int형 태도 담겨있는걸 볼 수 있다.
+    typedef void (*stub_type)(void* object_ptr, int);
+
+    // 함수 포인트를 담을 변수이다.
+    void* object_ptr;
+    // 상위 타입으로 생성된 변수이다.
+    stub_type stub_ptr;
+
+    // template에 class 의 타입과 함수 포인터 형태의 앞선 클레스안의 어떠한 메소드 포인터와 인자갑 타입을 정의한거 같다.
+    // 변하지 않는 함수로 ? 왜선언했을까?? 인자값 포인터와 int를 받는다.
+    template <class T, void (T::*TMethod)(int)>
+    static void method_stub(void* object_ptr, int a1)
+    {
+        // 템플릿으로 선언된 형식으로 함수 포인터를 변환해주고;
+        T* p = static_cast<T*>(object_ptr);
+        // 함수를 반환해 준다.
+        return (p->*TMethod)(a1); // #2
+    }
+```
+
+public 부분이다
+
+```cpp
+public:
+    // 생성시 내부 값들을 nullptr을 가르키게한다.
+    delegate()
+        : object_ptr(0)
+        , stub_ptr(0)
+    {}
+
+    // 어떠한 클레스에 int 형식의 인자를 가진 메서드로 타입을 정의한다.
+    template <class T, void (T::*TMethod)(int)>
+    static delegate from_method(T* object_ptr)
+    {
+        // delegate를 선언해주고
+        delegate d;
+        // delegate_ptr을 넣어준다.
+        d.object_ptr = object_ptr;
+        // 앞서 정의된 void (*stub_type)(void* object_ptr, int) 타입으로 만들어 넣어준다
+        d.stub_ptr = &method_stub<T, TMethod>;
+        // 만들어진 delegate를 반환한다.
+        return d;
+    }
+
+    // 실행 시키기
+    void operator()(int a1) const
+    {
+        // 인자로 들어온 값을 넣어 실행 시켜준다.
+        return (*stub_ptr)(object_ptr, a1);
+    }
+```
+
+간단히 살펴보았다 이러한 구조롤 되어있으며 하나의 함수를 정의하는 것으로 인스턴스화 하여 사용 가능하게 하기 위함으로 보인다.
+
+## 참조
+
+[https://ospace.tistory.com/224](https://ospace.tistory.com/224)
